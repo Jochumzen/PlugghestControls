@@ -1,0 +1,5 @@
+C:\websites\dnndev.me\bin\PlugghestControls.dll
+C:\websites\dnndev.me\bin\PlugghestControls.pdb
+C:\websites\dnndev.me\DesktopModules\PlugghestControls\obj\Release\PlugghestControls.csprojResolveAssemblyReference.cache
+C:\websites\dnndev.me\DesktopModules\PlugghestControls\obj\Release\PlugghestControls.dll
+C:\websites\dnndev.me\DesktopModules\PlugghestControls\obj\Release\PlugghestControls.pdb
