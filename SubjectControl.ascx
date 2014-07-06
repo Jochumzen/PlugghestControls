@@ -21,10 +21,6 @@
 
 <asp:Literal ID="ltTheTree" runat ="server" Visible ="false" />
 
-<%--<div class="tree">
-    <div id="tree2"></div>
-</div>--%>
-
 <asp:Button ID="btnSave" resourcekey="Save" runat="server" Visible="false" OnClientClick="return getsubjectid();" OnClick="btnSave_Click" />&nbsp;
 <asp:Button ID="btnCancel" resourcekey="Cancel" runat="server" Visible="false" OnClick="btnCancel_Click" />
 

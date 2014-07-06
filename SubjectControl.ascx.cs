@@ -9,12 +9,14 @@ using Plugghest.Base2;
 using DotNetNuke.Services.Localization;
 using System.Web.Script.Serialization;
 using System.Text;
+using System.Collections.Specialized;
 
 
 namespace Plugghest.Modules.PlugghestControls
 {
     public partial class SubjectControl : PortalModuleBase
     {
+        public ESubjectCase SubjectCase;
         public int SubjectId;
         public int ItemId;
         public string CultureCode;
@@ -22,6 +24,7 @@ namespace Plugghest.Modules.PlugghestControls
         public int ControlOrder;
         protected void Page_Load(object sender, EventArgs e)
         {
+
             if (SubjectId == 0)
                 ltSubject.Text = Localization.GetString("NoSubject", LocalResourceFile);
             else
@@ -48,7 +51,7 @@ namespace Plugghest.Modules.PlugghestControls
                 btnCancel.Visible = true;
                 phSelect.Visible = true;
                 ltTheTree.Visible = true;
-                ltTheTree.Text = "<div class=\"tree\"><div id=\"tree2\"></div></div>";
+                ltTheTree.Text = "<div class=\"tree\"><div id=\"tree2\"></div></div><br />";
                 BaseHandler bh = new BaseHandler();
                 var tree = bh.GetSubjectsAsTree(CultureCode);
                 JavaScriptSerializer TheSerializer = new JavaScriptSerializer();
@@ -59,13 +62,31 @@ namespace Plugghest.Modules.PlugghestControls
 
         protected void btnSave_Click(object sender, EventArgs e)
         {
-            PluggContainer pc = new PluggContainer(CultureCode, ItemId);
-            if (pc.ThePlugg != null && pc.ThePlugg.PluggId != 0)
+            switch (SubjectCase )
             {
-                pc.ThePlugg.SubjectId = Convert.ToInt32(hdnNodeSubjectId.Value);
-                pc.UpdatePluggEntity();
+                case ESubjectCase.Plugg:
+                    PluggContainer pc = new PluggContainer(CultureCode, ItemId);
+                    if (pc.ThePlugg != null && pc.ThePlugg.PluggId != 0)
+                    {
+                        pc.ThePlugg.SubjectId = Convert.ToInt32(hdnNodeSubjectId.Value);
+                        pc.UpdatePluggEntity();
+                    }
+                    Response.Redirect(DotNetNuke.Common.Globals.NavigateURL(TabId, "", "edit=0"));
+                    break;
+                case ESubjectCase.Course:
+                    CourseContainer cc = new CourseContainer(CultureCode, ItemId);
+                    if (cc.TheCourse != null && cc.TheCourse.CourseId != 0)
+                    {
+                        cc.TheCourse.SubjectId = Convert.ToInt32(hdnNodeSubjectId.Value);
+                        cc.UpdateCourseEntity();
+                    }
+                    Response.Redirect(DotNetNuke.Common.Globals.NavigateURL(TabId, "", "edit=0"));
+                    break;
+                case ESubjectCase.NotSet:
+                    throw new Exception("Subject case not set");
+                    break;
             }
-            Response.Redirect(DotNetNuke.Common.Globals.NavigateURL(TabId, "", "edit=0"));
+
         }
 
         protected void btnCancel_Click(object sender, EventArgs e)

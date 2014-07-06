@@ -1,5 +1,4 @@
 ﻿<%@ Control Language="C#" AutoEventWireup="true" CodeBehind="CustomAutocomplete.ascx.cs" Inherits="Plugghest.Modules.PlugghestControls.CustomAutocomplete" %>
-<link rel="stylesheet" href="//code.jquery.com/ui/1.10.4/themes/smoothness/jquery-ui.css">
 
 <style>
     .autocomplete
@@ -28,7 +27,7 @@
 
         .ui-autocomplete li.ui-menu-item
         {
-            margin:10px 0px 10px 0px;
+            margin: 10px 0px 10px 0px;
         }
 
     .ui-state-focus
@@ -45,67 +44,74 @@
         border-bottom-left-radius: 0px;
         border-bottom-right-radius: 0px;
     }
+
+    .ui-widget-content
+    {
+        background: url("images/ui-bg_flat_75_ffffff_40x100.png") repeat-x scroll 50% 50% #ffffff;
+        border: 1px solid #aaaaaa;
+        color: #222222;
+    }
+
+    .ui-widget
+    {
+        font-family: Verdana,Arial,sans-serif;
+        font-size: 1.1em;
+    }
+
+    .ui-menu
+    {
+        list-style: none outside none;
+        margin: 0;
+        outline: medium none;
+    }
+
+    .ui-autocomplete
+    {
+        cursor: default;
+        position: absolute;
+    }
+    .ui-helper-hidden-accessible {
+    display:none!important;
+    }
 </style>
 
 
 <script>
 
     $(function () {
-        $(".autocomplete").click(function () {
+        $(".catcomplete").click(function () {
             var e = jQuery.Event("keydown");
             e.keyCode = 40;
-            $("#city").trigger(e);
+            $(".catcomplete").trigger(e);
         });
 
-        $(".autocomplete").catcomplete({
+        $('.catcomplete').on('keydown', function (e) {
+            if (e.keyCode == 13) {
+                window.location.href = $(this).attr('resulturl') + "/search_keyword/" + $(this).val();
+            }
+        });
+
+        $(".catcomplete").catcomplete({
             source: function (request, response) {
                 var _url = $($(this)[0].element[0]).attr("Action-url");
                 $.ajax({
                     type: "post",
-                    url: _url,
-                    data: {
-                        cmd: 'test_search',
-                        data: request.term,
-                        iinst: 452
-                 
-                    },
-                    dataType: "text/html",
-                    contentType: "application/x-www-form-urlencoded; charset=UTF-8",
+                    url: _url + '?portalId=0&inst=452&sb-page=1&sb-pagesize=10&sb-search=' + request.term + '&format=json',
+                    contentType: "application/json; charset=utf-8",
                     success: function (data) {
-                        console.log(JSON.stringify(data));
-                        response($.map($(data).filter('a:contains("(rule)")'), function (item) {
+                        response($.map(data.SearchResults, function (item) {
                             return {
-                                label: item.text().replace(' (rule)', ''),
-                                category: 'Title'
+                                text: ' ' + item.Title.replace('&lt;', '<').replace('&gt;', '>') + ' ',
+                                label: item.SearchKey.replace('avtsb.User search-', ''),
+                                category: item.Type == 'rule' ? 'Title' : 'Pages'
                             }
                         }));
-                        //response($.map(data, function (item) {
-                        //    return {
-                        //        label: item.label.substring(0, item.label.length - 1),//item.Name,
-                        //        value: item.label.substring(0, item.label.length - 1),
-                        //        category: (item.label.substring(item.label.length - 1) == '1' || item.label.substring(item.label.length - 1) == '^') ? 'Title' : (item.label.substring(item.label.length - 1) == '2' || item.label.substring(item.label.length - 1) == '~') ? 'Author' : 'Pages'//item.category
-                        //    }
-                        //}));
                     },
-                    complete: function (_data) {
-                        var _html = $.parseHTML(_data.responseText);
-                        response($.map($(_html).filter('a:contains("(rule)")'), function (item) {
-                            return {
-                                label: $(item).text().replace(' (rule)', ''),
-                                category: 'Title'
-                            }
-                        }));
-                    }
                 });
-                //type: "POST",
-                //url: _url + request.term,
-                //contentType: "application/json; charset=utf-8",
-                //dataType: "json",
             },
             minLength: 1,
             select: function (event, ui) {
-                document.cookie = "searchinfo=" + ui.item.label;
-                window.location.href = $(this).attr("resulturl");
+                window.location.href = $(this).attr('resulturl') + "/search_keyword/" + ui.item.label;
                 console.log(ui.item ?
                 "Selected: " + ui.item.label + " category : " + ui.item.category :
                 "Nothing selected, input was " + this.value);
@@ -122,17 +128,8 @@
     $.widget("custom.catcomplete", $.ui.autocomplete, {
         _renderMenu: function (ul, items) {
             var that = this;
-            var currentCategory = "";
-            items.sort(function (a, b) {
-                return a.category < b.category;
-            });
-
             $.each(items, function (index, item) {
                 if (item.category != 'Pages') {
-                    //if (item.category != currentCategory) {
-                    //    $('<li/>').addClass('ui-autocomplete-category').html(item.category).appendTo(ul);
-                    //    currentCategory = item.category;
-                    //}
                     that._renderItemData(ul, item);
                 }
             });
@@ -140,6 +137,5 @@
     });
 </script>
 
-<input id="city" class="autocomplete" action-url="http://dnndev.me/DesktopModules/SearchBoost/AdminApi.aspx?alias=dnndev.me" resulturl="http://dnndev.me/en-us/Search-result">
-<%--<input id="city" class="autocomplete" action-url="http://dnndev.me/DesktopModules/SearchBoost/Autocomplete.ashx?cmd=autocomplete&size=8&term=" resulturl="<%= Request.Url.ToString()  %>">--%>
-<%--Action-url="<%: ResolveUrl("~/svc/time")%>"--%>
+
+<input id="Text1" class="autocomplete catcomplete" action-url="http://dnndev.me/DesktopModules/SearchBoost/SearchService.ashx" resulturl="<%= ResolveUrl("http://dnndev.me/en-us/Search-result")  %>">

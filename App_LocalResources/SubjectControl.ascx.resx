@@ -124,13 +124,13 @@
     <value>Edit</value>
   </data>
   <data name="NoSubject.Text" xml:space="preserve">
-    <value>No subject is assigned for this Plugg.</value>
+    <value>No subject is assigned for this Item.</value>
   </data>
   <data name="Save.Text" xml:space="preserve">
     <value>Save</value>
   </data>
   <data name="Select.Text" xml:space="preserve">
-    <value>Select a subject for this Plugg. Be as specific as possible. The Plugg will automatically belong to all subjects above he selected one.</value>
+    <value>Select a subject for this Item. Be as specific as possible. It will automatically belong to all subjects above he selected one.</value>
   </data>
   <data name="Subject.Text" xml:space="preserve">
     <value>Subject: </value>

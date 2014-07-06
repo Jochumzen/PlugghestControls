@@ -23,7 +23,7 @@ namespace Plugghest.Modules.PlugghestControls
 
         protected void Page_Load(object sender, EventArgs e)
         {
-            if (ItemType == ETextItemType.PluggDescription)
+            if (ItemType == ETextItemType.PluggDescription || ItemType == ETextItemType.CourseDescription)
             {
                 tbTheText.TextMode = TextBoxMode.MultiLine;
                 tbTheText.Height = 120;
@@ -120,6 +120,13 @@ namespace Plugghest.Modules.PlugghestControls
                     PluggContainer pc = new PluggContainer(CultureCode, ItemId);
                     DNNHelper h = new DNNHelper();
                     h.RenameTab(pc.ThePlugg.TabId, newPageName);
+                }
+                if (ItemType == ETextItemType.CourseTitle)
+                {
+                    string newPageName = "C" + ItemId.ToString() + ": " + t.Text;
+                    CourseContainer cc = new CourseContainer(CultureCode, ItemId);
+                    DNNHelper h = new DNNHelper();
+                    h.RenameTab(cc.TheCourse.TabId, newPageName);
                 }
                 Response.Redirect(DotNetNuke.Common.Globals.NavigateURL(TabId, "", "edit=0"));
             }

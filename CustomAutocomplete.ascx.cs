@@ -13,7 +13,7 @@ namespace Plugghest.Modules.PlugghestControls
     {
         protected void Page_Load(object sender, EventArgs e)
         {
-
+            var key = Request.QueryString["search_keyword"];
         }
 
         //public static IEnumerable<PHText> GetPlugg_Author()

@@ -1,9 +1,9 @@
 ﻿<%@ Control Language="C#" AutoEventWireup="true" CodeBehind="SearhList.ascx.cs" Inherits="Plugghest.Modules.PlugghestControls.SearhList" %>
-<link href="//cdn.datatables.net/1.10.0/css/jquery.dataTables.css" rel="stylesheet" />
+<link href="http://dnndev.me/cdn.datatables.net/1.10.0/css/jquery.dataTables.css" rel="stylesheet" />
 <script type="text/javascript" src="//cdn.datatables.net/1.10.0/js/jquery.dataTables.js"></script>
 <script>
     $(document).ready(function () {
-        $('#<%=pnlTable.ClientID%> table:eq(0)').dataTable({
+        $('.bd table:eq(0)').dataTable({
             "bPaginate": true,
             "bLengthChange": true,
             "bFilter": false,
@@ -23,14 +23,98 @@
 <div class="mod booklist">
     <div class="inner">
         <div class="bd">
-            <asp:Panel ID="pnlTable" runat="server">
+            <asp:Repeater ID="rptSearchResult" runat="server">
+                <HeaderTemplate>
+                    <table>
+                        <tr>
+                            <th></th>
+                        </tr>
+                </HeaderTemplate>
+                <ItemTemplate>
+                    <tr class='item'>
+                        <td>
+                            <div class='media product '>
+                                <div class='price-container right'>
+                                    <div class='left inner-right'>
+                                        <span class='price bold'>$220</span>
+                                    </div>
+                                    <a class='button red large js-present-modal' data-type='purchase' data-arg='9781446209424' href='#purchase,9781446209424'>Purchase</a>
+                                </div>
+                                <figure class='img'>
+                                    <a href='/e-bok/9781446209424/good-essay-writing'>
+                                        <img width='66px' height='97px' src='https://image.bokus.com/images2/9781446209424_small' alt='Good Essay Writing'>
+                                    </a>
+                                </figure>
+                                <div class='bd'>
+                                    <ul class='verticalList no-margin'>
+                                        <li>
+                                            <ul class='booklist-rating'>
+                                                <li class='booklist-top'>
+                                                    <span class='js-ebook-label ebook-label medium'>E-bok</span>
+                                                </li>
+                                                <li class='booklist-top'>
 
-            </asp:Panel>
+                                                    <%----Rating thing----%>
+                                                    <div style='display: block;' class='dcc_rnc_CLSelector' co_type='Q' apppath='' ratingmode='ratings' moduleid='449'
+                                                        co_val='qsp:tabid' co_val2='<%# Eval("TabID") %>'>
+                                                        <!-- User customizable content starts -->
+                                                        <table border='0' cellspacing='0' cellpadding='3'>
+                                                            <tr>
+                                                                <td colspan='1'>
+                                                                    <img src='[PRC_AVERAGERATINGIMAGE]' alt='Avg. Rating [PRC_AVERAGERATINGVALUE]' title='Avg. Rating [PRC_AVERAGERATINGVALUE]'>
+                                                                </td>
+                                                           
+                                                                <td style='font-family: Tahoma; font-size: 10px; font-weight: bold; color: #000000; white-space: nowrap;'>[PRC_TOTALRATINGS] Rating(s)
+                                                                </td>
+                                                            </tr>
+                                                        </table>
+                                                        <!-- User customizable content ends -->
+                                                    </div>
+                                                    <%----End Rating thing-----%>
+                                                </li>
+                                                <li>
+                                                    <p style='padding-top: 4px;'></p>
+                                                </li>
+                                            </ul>
+                                             <br />
+                                            </br>
+                                        </li>
+                                        <li>
+                                            <h3 class='booklist-title'>
+                                                <a href='<%# Eval("TabID") %>'><%#Eval("Title")%> </a>
+                                            </h3>
+                                        </li>
+                                        <li>
+                                            <h4 class='booklist-author'>Author :  
+                                                 <a href='/e-bok/författare/Peter Redman, Wendy Maples'><%#Eval("Author")%></a>
+                                            </h4>
+                                        </li>
+                                        <li class='description'>
+                                            <div class='expandable js-expandable js-auto-expand'>
+                                                <div class='expandable-content'><%#Eval("Discription")%></div>
+                                                <div class='expandable-trigger-container'>
+                                                    <div class='expandable-fade'></div>
+                                                    <a class='blue expandable-trigger js-expandable-trigger' href='#toggle'>
+                                                        <span class='expanded-text'>+ View More</span>
+                                                        <span class='collapsed-text'>- View Less</span>
+                                                    </a>
+                                                </div>
+                                            </div>
+                                        </li>
+                                    </ul>
+                                </div>
+                            </div>
+                        </td>
+                    </tr>
+                </ItemTemplate>
+                <FooterTemplate>
+                    </table>
+                </FooterTemplate>
+            </asp:Repeater>
         </div>
     </div>
 </div>
 <asp:HiddenField ID="hdnKeyword" runat="server" />
-
 <style>
     .mod
     {
@@ -47,7 +131,7 @@
 
     ul, ol
     {
-        margin: 0;
+        margin: 0!important;
     }
 
     .mod.booklist .inner .bd li.item

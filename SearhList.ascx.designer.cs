@@ -13,13 +13,13 @@ namespace Plugghest.Modules.PlugghestControls {
     public partial class SearhList {
         
         /// <summary>
-        /// pnlTable control.
+        /// rptSearchResult control.
         /// </summary>
         /// <remarks>
         /// Auto-generated field.
         /// To modify move field declaration from designer file to code-behind file.
         /// </remarks>
-        protected global::System.Web.UI.WebControls.Panel pnlTable;
+        protected global::System.Web.UI.WebControls.Repeater rptSearchResult;
         
         /// <summary>
         /// hdnKeyword control.

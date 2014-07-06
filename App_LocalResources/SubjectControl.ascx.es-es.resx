@@ -124,13 +124,13 @@
     <value>Editar</value>
   </data>
   <data name="NoSubject.Text" xml:space="preserve">
-    <value>Ningún sujecto es asignado para este Plugg.</value>
+    <value>Ningún sujecto es asignado para este artículo.</value>
   </data>
   <data name="Save.Text" xml:space="preserve">
     <value>Guardar</value>
   </data>
   <data name="Select.Text" xml:space="preserve">
-    <value>Seleccione un tema para este Plugg. Sea lo más específico posible. El Plugg pertenecerá automáticamente a todos los sujetos por encima de él seleccionó uno.</value>
+    <value>Seleccione un tema para este Plugg. Sea lo más específico posible. El artículo pertenecerá automáticamente a todos los sujetos por encima de él seleccionó uno.</value>
   </data>
   <data name="Subject.Text" xml:space="preserve">
     <value>Sujeto: </value>
