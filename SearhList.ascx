@@ -1,6 +1,7 @@
 ﻿<%@ Control Language="C#" AutoEventWireup="true" CodeBehind="SearhList.ascx.cs" Inherits="Plugghest.Modules.PlugghestControls.SearhList" %>
-<link href="http://dnndev.me/cdn.datatables.net/1.10.0/css/jquery.dataTables.css" rel="stylesheet" />
-<script type="text/javascript" src="//cdn.datatables.net/1.10.0/js/jquery.dataTables.js"></script>
+
+<link href="http://dnndev.me/Script/dataTable/jquery.dataTables.css" rel="stylesheet" />
+<script type="text/javascript" src="http://dnndev.me/Script/dataTable/jquery.dataTables.js"></script>
 <script>
     $(document).ready(function () {
         $('.bd table:eq(0)').dataTable({
@@ -10,13 +11,27 @@
             "bSort": true,
             "bInfo": true,
             "bAutoWidth": true,
-            "scrollY": "500px",
-            "scrollCollapse": true,
+            "scrollCollapse": false,
             "aoColumns": [
-                               null //put as many null values as your columns
+                               null //put as many null values as your columns --"scrollY": "500px",
             ]
         });
         $('.dataTables_length').css('display', 'none');
+    });
+
+    $(document).delegate('span.discriptiontoggle', 'click', function () {
+        console.log($(this).hasClass("collapsed-text"));
+
+        if ($(this).hasClass("collapsed-text")) {
+            $(this).css("display", "none");
+            $(this).prev("span").css("display", "block");
+            $(this).parent('.expandable-trigger-container').closest('.expandable-content').css('height', '200px');
+        }
+        if ($(this).hasClass("expanded-text")) {
+            $(this).css("display", "none");
+            $(this).next("span").css("display", "block");
+            $(this).closest('.expandable-trigger-container').closest('.expandable-content').css('height', 'auto');
+        }
     });
 
 </script>
@@ -25,7 +40,7 @@
         <div class="bd">
             <asp:Repeater ID="rptSearchResult" runat="server">
                 <HeaderTemplate>
-                    <table>
+                    <table class="dt">
                         <tr>
                             <th></th>
                         </tr>
@@ -36,67 +51,58 @@
                             <div class='media product '>
                                 <div class='price-container right'>
                                     <div class='left inner-right'>
-                                        <span class='price bold'>$220</span>
-                                    </div>
-                                    <a class='button red large js-present-modal' data-type='purchase' data-arg='9781446209424' href='#purchase,9781446209424'>Purchase</a>
-                                </div>
-                                <figure class='img'>
-                                    <a href='/e-bok/9781446209424/good-essay-writing'>
-                                        <img width='66px' height='97px' src='https://image.bokus.com/images2/9781446209424_small' alt='Good Essay Writing'>
-                                    </a>
-                                </figure>
-                                <div class='bd'>
-                                    <ul class='verticalList no-margin'>
-                                        <li>
-                                            <ul class='booklist-rating'>
-                                                <li class='booklist-top'>
-                                                    <span class='js-ebook-label ebook-label medium'>E-bok</span>
-                                                </li>
-                                                <li class='booklist-top'>
-
-                                                    <%----Rating thing----%>
-                                                    <div style='display: block;' class='dcc_rnc_CLSelector' co_type='Q' apppath='' ratingmode='ratings' moduleid='449'
-                                                        co_val='qsp:tabid' co_val2='<%# Eval("TabID") %>'>
+                                                    <div style='display: block;' class='dcc_rnc_CLSelector' co_type='Q' apppath='' ratingmode='ratings' moduleid='<%# Eval("RatingModuleId") %>'
+                                                        co_val='tabid:<%# Eval("TabId") %>' >
                                                         <!-- User customizable content starts -->
                                                         <table border='0' cellspacing='0' cellpadding='3'>
                                                             <tr>
                                                                 <td colspan='1'>
                                                                     <img src='[PRC_AVERAGERATINGIMAGE]' alt='Avg. Rating [PRC_AVERAGERATINGVALUE]' title='Avg. Rating [PRC_AVERAGERATINGVALUE]'>
                                                                 </td>
-                                                           
-                                                                <td style='font-family: Tahoma; font-size: 10px; font-weight: bold; color: #000000; white-space: nowrap;'>[PRC_TOTALRATINGS] Rating(s)
+                                                                <td style='font-family: Tahoma; font-size: 10px; font-weight: bold; color: #000000; white-space: nowrap;'>[PRC_TOTALRATINGS] <asp:Label ID="lblRatings" runat="server" Text="Rating(s)" meta:resourcekey="lblRatingsResource1"></asp:Label>
                                                                 </td>
                                                             </tr>
                                                         </table>
                                                         <!-- User customizable content ends -->
                                                     </div>
-                                                    <%----End Rating thing-----%>
-                                                </li>
-                                                <li>
-                                                    <p style='padding-top: 4px;'></p>
+                                    </div>
+                                </div>
+                                <figure class='img'>
+                                    <a href='/e-bok/9781446209424/good-essay-writing'>
+                                        <img width='66px' height='97px' src='https://image.bokus.com/images2/9781446209424_small' alt='Good Essay Writing'>
+                                    </a>
+                                &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</figure>
+                                <div class='bd'>
+                                    <ul class='verticalList no-margin'>
+                                        <li>
+                                            <ul class='booklist-rating'>
+                                                <li class='booklist-top'>
+                                                    <h3 class='booklist-title'>
+                                                        <a href='<%# evaluateRedirectURL(Convert.ToInt16( Eval("TabID"))) %>'><%#Eval("Title")%> </a>
+                                                    </h3>
                                                 </li>
                                             </ul>
-                                             <br />
-                                            </br>
                                         </li>
                                         <li>
                                             <h3 class='booklist-title'>
-                                                <a href='<%# Eval("TabID") %>'><%#Eval("Title")%> </a>
+                                                <a href='#'>&nbsp;&nbsp;</a>
                                             </h3>
                                         </li>
                                         <li>
-                                            <h4 class='booklist-author'>Author :  
-                                                 <a href='/e-bok/författare/Peter Redman, Wendy Maples'><%#Eval("Author")%></a>
+                                            <h4 class='booklist-author'><asp:Label ID="lblAuthor" runat="server" Text="Author :" meta:resourcekey="lblAuthorResource1"></asp:Label>  
+                                                 <a href='/Activity-Feed/UserId/<%#Eval("AuthorId")%>'><%#Eval("Author")%></a>
                                             </h4>
                                         </li>
                                         <li class='description'>
                                             <div class='expandable js-expandable js-auto-expand'>
                                                 <div class='expandable-content'><%#Eval("Discription")%></div>
-                                                <div class='expandable-trigger-container'>
+                                                <br />
+                                                <br />
+                                               <div class='expandable-trigger-container'>
                                                     <div class='expandable-fade'></div>
                                                     <a class='blue expandable-trigger js-expandable-trigger' href='#toggle'>
-                                                        <span class='expanded-text'>+ View More</span>
-                                                        <span class='collapsed-text'>- View Less</span>
+                                                        <span class='expanded-text discriptiontoggle'><asp:Label ID="lblexpand" runat="server" Text="+ View More" meta:resourcekey="lblexpandResource1"></asp:Label></span>
+                                                        <span class='collapsed-text discriptiontoggle'><asp:Label ID="lblCollapsed" runat="server" Text="- View Less" meta:resourcekey="lblCollapsedResource1"></asp:Label></span>
                                                     </a>
                                                 </div>
                                             </div>
@@ -104,6 +110,7 @@
                                     </ul>
                                 </div>
                             </div>
+                            <hr />
                         </td>
                     </tr>
                 </ItemTemplate>
@@ -116,6 +123,15 @@
 </div>
 <asp:HiddenField ID="hdnKeyword" runat="server" />
 <style>
+   table.dataTable td.sorting_1{ background-color: white; border:1px lightgrey; }
+    table.dataTable td{ background-color: white;  border:1px lightgrey;}
+    table.dataTable tr.odd { background-color: white;  border:1px lightgrey;}
+    table.dataTable tr.even{ background-color: white; border:1px lightgrey; }
+
+    .collapsed-text
+    {
+        display:none;
+    }
     .mod
     {
         height: 100%;
@@ -162,6 +178,8 @@
     .media.product
     {
         float: left;
+
+    
     }
 
     .right
@@ -408,9 +426,12 @@
         color: #ff6600;
         font-family: 'Helvetica Neue',Helvetica,Arial,sans-serif;
         font-size: 138.5%;
-        line-height: 0px!important;
         margin: 0!important;
         padding: 0!important;
+    }
+    h4
+    {
+        margin:0 !important;
     }
 
     h4.booklist-author
