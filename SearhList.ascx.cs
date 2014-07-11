@@ -24,6 +24,16 @@ namespace Plugghest.Modules.PlugghestControls
             }
         }
 
+        public IEnumerable<Plugghest.Base2.PluggInfoForPluggList> DataSource
+        {
+            set
+            {
+                rptSearchResult.DataSource = value;
+                rptSearchResult.DataBind();
+            }
+        }
+        
+
         private string CurrentLanguage
         {
             get
@@ -34,17 +44,8 @@ namespace Plugghest.Modules.PlugghestControls
 
         protected void Page_Load(object sender, EventArgs e)
         {
-            populateresult();
-        }
-
-        private void populateresult()
-        {
-            if (string.IsNullOrEmpty(this.searchInfo))
-                return;
-
-            rptSearchResult.DataSource = new Plugghest.Base2.BaseHandler().Get_SearchResult(this.searchInfo);
-            rptSearchResult.DataBind();
-        }
+            
+        }      
 
         public string evaluateRedirectURL(int tabid)
         {

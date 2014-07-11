@@ -1,5 +1,5 @@
 C:\websites\dnndev.me\bin\PlugghestControls.dll
 C:\websites\dnndev.me\bin\PlugghestControls.pdb
-C:\websites\dnndev.me\DesktopModules\PlugghestControls\obj\Debug\PlugghestControls.csprojResolveAssemblyReference.cache
 C:\websites\dnndev.me\DesktopModules\PlugghestControls\obj\Debug\PlugghestControls.dll
 C:\websites\dnndev.me\DesktopModules\PlugghestControls\obj\Debug\PlugghestControls.pdb
+C:\websites\dnndev.me\DesktopModules\PlugghestControls\obj\Debug\PlugghestControls.csprojResolveAssemblyReference.cache

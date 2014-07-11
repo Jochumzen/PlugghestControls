@@ -123,6 +123,13 @@
     <Compile Include="SubjectControl.ascx.designer.cs">
       <DependentUpon>SubjectControl.ascx</DependentUpon>
     </Compile>
+    <Compile Include="UserSearchInput.ascx.cs">
+      <DependentUpon>UserSearchInput.ascx</DependentUpon>
+      <SubType>ASPXCodeBehind</SubType>
+    </Compile>
+    <Compile Include="UserSearchInput.ascx.designer.cs">
+      <DependentUpon>UserSearchInput.ascx</DependentUpon>
+    </Compile>
     <Compile Include="View.ascx.cs">
       <DependentUpon>View.ascx</DependentUpon>
       <SubType>ASPXCodeBehind</SubType>
@@ -153,6 +160,7 @@
     <Content Include="RichRichControl.ascx" />
     <Content Include="SearhList.ascx" />
     <Content Include="SubjectControl.ascx" />
+    <Content Include="UserSearchInput.ascx" />
     <Content Include="View.ascx" />
     <Content Include="YouTubeControl.ascx" />
   </ItemGroup>

@@ -88,6 +88,7 @@
         $('.catcomplete').on('keydown', function (e) {
             if (e.keyCode == 13) {
                 window.location.href = $(this).attr('resulturl') + "/search_keyword/" + $(this).val();
+                alert($(this).attr('resulturl') + "/search_keyword/" + $(this).val());
             }
         });
 
