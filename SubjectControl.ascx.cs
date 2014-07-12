@@ -31,14 +31,7 @@ namespace Plugghest.Modules.PlugghestControls
             {
                 BaseHandler bh = new BaseHandler();
                 var SubList = bh.GetSubjectsAsTree(CultureCode);
-                Subject s = bh.FindSubject(SubList, SubjectId);
-                StringBuilder theS = new StringBuilder(s.label);
-                while (s.MotherId != 0)
-                {
-                    s = s.Mother;
-                    theS.Insert(0, s.label + " <span class=\"glyphicons glyph-right-arrow\"></span> ");
-                }
-                ltSubject.Text = theS.ToString();
+                ltSubject.Text = bh.GetSubjectString(SubList, SubjectId);
             }
             if (Case == EControlCase.ViewAllowEdit)
             {
