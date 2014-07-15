@@ -4,6 +4,7 @@ using System.Linq;
 using System.Web;
 using System.Web.UI;
 using System.Web.UI.WebControls;
+using Plugghest.Base2;
 
 namespace Plugghest.Modules.PlugghestControls
 {
@@ -50,6 +51,14 @@ namespace Plugghest.Modules.PlugghestControls
         public string evaluateRedirectURL(int tabid)
         {
             return DotNetNuke.Common.Globals.NavigateURL(tabid, "", new string[] { "language=" + this.CurrentLanguage });
+        }
+
+        public string getSubjectByID(int subjectId)
+        {
+            if (subjectId == 0)
+                return "No subject";
+            BaseHandler bh = new BaseHandler();
+            return bh.GetSubjectString("en-US", subjectId);
         }
     }
 }

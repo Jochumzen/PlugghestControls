@@ -30,8 +30,8 @@ namespace Plugghest.Modules.PlugghestControls
             else
             {
                 BaseHandler bh = new BaseHandler();
-                var SubList = bh.GetSubjectsAsTree(CultureCode);
-                ltSubject.Text = bh.GetSubjectString(SubList, SubjectId);
+                var SubList = bh.GetSubjectsAsFlatList(CultureCode);
+                ltSubject.Text = bh.GetSubjectString(CultureCode, SubjectId);
             }
             if (Case == EControlCase.ViewAllowEdit)
             {

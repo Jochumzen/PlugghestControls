@@ -1,24 +1,46 @@
 ﻿<%@ Control Language="C#" AutoEventWireup="true" CodeBehind="RichControl.ascx.cs" Inherits="Plugghest.Modules.PlugghestControls.RichControl" %>
 
 
-<link href="http://netdna.bootstrapcdn.com/twitter-bootstrap/2.3.1/css/bootstrap-combined.no-icons.min.css" rel="stylesheet">
+<%--<link href="http://netdna.bootstrapcdn.com/twitter-bootstrap/2.3.1/css/bootstrap-combined.no-icons.min.css" rel="stylesheet">--%>
 <link href="http://netdna.bootstrapcdn.com/twitter-bootstrap/2.3.1/css/bootstrap-responsive.min.css" rel="stylesheet">
 <link href="http://netdna.bootstrapcdn.com/font-awesome/3.0.2/css/font-awesome.css" rel="stylesheet">
 <link href="/js/bootstrap-wysiwyg/index.css" rel="stylesheet" />
 <script src="/js/bootstrap-wysiwyg/jquery.hotkeys.js"></script>
 <script src="/js/bootstrap-wysiwyg/bootstrap-wysiwyg.js"></script>
+<style>
+    select {
+        background-color: #ffffff;
+        border: 1px solid #cccccc;
+        width: 220px;
+    }
 
-<asp:Panel ID="pnlOriginalText" runat="server" Visible ="false">
-    <h4><asp:Label ID="lblOriginalText" resourcekey="OriginText" runat="server" ></asp:Label></h4>
+    select, textarea, input[type="text"], input[type="password"], input[type="datetime"], input[type="datetime-local"], input[type="date"], input[type="month"], input[type="time"], input[type="week"], input[type="number"], input[type="email"], input[type="url"], input[type="search"], input[type="tel"], input[type="color"], .uneditable-input {
+        border-radius: 4px;
+        color: #555555;
+        display: inline-block;
+        font-size: 14px;
+        height: 30px;
+        line-height: 20px;
+        padding: 4px 6px;
+        vertical-align: middle;
+    }
+    .container {
+    width:auto!important;
+    }
+</style>
+<asp:Panel ID="pnlOriginalText" runat="server" Visible="false">
+    <h4>
+        <asp:Label ID="lblOriginalText" resourcekey="OriginText" runat="server"></asp:Label></h4>
     <asp:Literal ID="ltOriginalText" runat="server" /><br />
 </asp:Panel>
 
-<h4><asp:Label ID="lblCurrentText" resourcekey="CurrentText" runat="server" Visible="false" ></asp:Label></h4>
+<h4>
+    <asp:Label ID="lblCurrentText" resourcekey="CurrentText" runat="server" Visible="false"></asp:Label></h4>
 
 <asp:Literal ID="TheText" runat="server"></asp:Literal>
 
 <asp:HiddenField ID="hdnrichtext" runat="server" />
-<asp:Panel ID="pnlRichTextbox" runat="server" Visible="false" >
+<asp:Panel ID="pnlRichTextbox" runat="server" Visible="false">
     <div class='container'>
         <div class='hero-unit'>
 
@@ -74,21 +96,21 @@
     </div>
 </asp:Panel>
 
-<asp:Panel ID="pnlEdit" runat="server" Visible ="false">
+<asp:Panel ID="pnlEdit" runat="server" Visible="false">
     <asp:HyperLink ID="hlEdit" resourcekey="Edit" runat="server" /><br />
 </asp:Panel>
 
-<asp:Panel ID="pnlTranslateFromGoogle" runat="server" Visible ="false">
+<asp:Panel ID="pnlTranslateFromGoogle" runat="server" Visible="false">
     <asp:HyperLink ID="hlTranslateFromGoogle" resourcekey="TranslateGoogle" runat="server" /><br />
 </asp:Panel>
 
-<asp:Panel ID="pnlTranslateFromHuman" runat="server" Visible ="false">
+<asp:Panel ID="pnlTranslateFromHuman" runat="server" Visible="false">
     <asp:HyperLink ID="hlTranslateFromHuman" resourcekey="TranslateHuman" runat="server" /><br />
 </asp:Panel>
 
-<asp:Button ID="btnGoogleOK" resourcekey ="GoogleOK" runat="server" Visible ="false" OnClick="btnGoogleOK_Click" />
-<asp:Button ID="btnSave" resourcekey ="Save" runat="server" Visible ="false" OnClientClick="getRichtext()" OnClick="btnSave_Click" />&nbsp;
-<asp:Button ID="btnCancel" resourcekey ="Cancel" runat="server" Visible ="false" OnClick="btnCancel_Click" />
+<asp:Button ID="btnGoogleOK" resourcekey="GoogleOK" runat="server" Visible="false" OnClick="btnGoogleOK_Click" />
+<asp:Button ID="btnSave" resourcekey="Save" runat="server" Visible="false" OnClientClick="getRichtext()" OnClick="btnSave_Click" />&nbsp;
+<asp:Button ID="btnCancel" resourcekey="Cancel" runat="server" Visible="false" OnClick="btnCancel_Click" />
 
 <script>
     $(document).ready(function () {
@@ -97,7 +119,7 @@
         window.prettyPrint && prettyPrint();
         $('#editor').html($('#' + '<%=hdnrichtext.ClientID%>').val());
         function initToolbarBootstrapBindings() {
-         
+
             var fonts = ['Serif', 'Sans', 'Arial', 'Arial Black', 'Courier',
                   'Courier New', 'Comic Sans MS', 'Helvetica', 'Impact', 'Lucida Grande', 'Lucida Sans', 'Tahoma', 'Times',
                   'Times New Roman', 'Verdana'],

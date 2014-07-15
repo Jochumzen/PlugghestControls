@@ -16,6 +16,7 @@
         }
     });
 </script>
+
 <div class="mod booklist">
     <div class="inner">
         <div class="bd">
@@ -30,7 +31,7 @@
                                 <div class='price-container right'>
                                     <div class='left inner-right'>
                                         <div style='display: block;' class='dcc_rnc_CLSelector' co_type='Q' apppath='' ratingmode='ratings' moduleid='<%# Eval("RatingModuleId") %>'
-                                            co_val='qsp:tabid' co_val2='<%# Eval("TabID") %>'>
+                                            co_val='tabid:<%# Eval("TabID") %>'>
                                             <!-- User customizable content starts -->
                                             <table border='0' cellspacing='0' cellpadding='3'>
                                                 <tr>
@@ -71,7 +72,13 @@
                                         <li>
                                             <h4 class='booklist-author'>
                                                 <asp:Label ID="lblAuthor" runat="server" Text="Author :" meta:resourcekey="lblAuthorResource1"></asp:Label>
-                                                <a href='/Activity-Feed/UserId/<%#Eval("AuthorId")%>'><%#Eval("Author")%></a>
+                                                <a href='/Activity-Feed/UserId/<%#Eval("AuthorId")%>'><%#Eval("Author")%></a>.
+                                            </h4>
+                                        </li>
+                                        <li>
+                                            <h4 class='booklist-author'>
+                                                <asp:Label ID="Label1" runat="server" Text="Subject :" meta:resourcekey="lblAuthorResource1"></asp:Label>
+                                                <%# getSubjectByID( Convert.ToInt16( Eval("SubjectId")) )%>
                                             </h4>
                                         </li>
                                         <li class='description'>
