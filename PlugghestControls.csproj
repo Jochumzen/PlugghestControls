@@ -82,6 +82,13 @@
     <Compile Include="CustomAutocomplete.ascx.designer.cs">
       <DependentUpon>CustomAutocomplete.ascx</DependentUpon>
     </Compile>
+    <Compile Include="LabelControl.ascx.cs">
+      <DependentUpon>LabelControl.ascx</DependentUpon>
+      <SubType>ASPXCodeBehind</SubType>
+    </Compile>
+    <Compile Include="LabelControl.ascx.designer.cs">
+      <DependentUpon>LabelControl.ascx</DependentUpon>
+    </Compile>
     <Compile Include="LatexControl.ascx.cs">
       <DependentUpon>LatexControl.ascx</DependentUpon>
       <SubType>ASPXCodeBehind</SubType>
@@ -153,6 +160,7 @@
     <Content Include="bootstrap-wysiwyg\jquery.hotkeys.js" />
     <Content Include="bootstrap-wysiwyg\prettify.css" />
     <Content Include="CustomAutocomplete.ascx" />
+    <Content Include="LabelControl.ascx" />
     <Content Include="LatexControl.ascx" />
     <Content Include="PureTextControl.ascx" />
     <Content Include="License.txt" />
@@ -215,6 +223,9 @@
     <None Include="web.Release.config">
       <DependentUpon>web.config</DependentUpon>
     </None>
+  </ItemGroup>
+  <ItemGroup>
+    <Content Include="App_LocalResources\LabelControl.ascx.resx" />
   </ItemGroup>
   <PropertyGroup>
     <VisualStudioVersion Condition="'$(VisualStudioVersion)' == ''">10.0</VisualStudioVersion>

@@ -18,11 +18,32 @@
 </script>
 
 <div class="mod booklist">
+    <div>
+    <asp:DropDownList ID="ddlPluggorCourse" runat="server">
+        <asp:ListItem Text="Plugg and Course" Value="0"></asp:ListItem>
+        <asp:ListItem Text="Pluggs" Value="1"></asp:ListItem>
+        <asp:ListItem Text="Courses" Value="2"></asp:ListItem>
+    </asp:DropDownList><br />
+
+    <asp:DropDownList ID="ddlLanguage" runat="server">
+        <asp:ListItem Text="Any Language" Value="0"></asp:ListItem>
+        <asp:ListItem Text="Current Language" Value="1"></asp:ListItem>
+    </asp:DropDownList><br />
+
+
+    <asp:Label runat="server" ID="lblTitle" Text="Title"></asp:Label>
+    <asp:TextBox runat="server" ID="txtTitle"></asp:TextBox><br />
+    <asp:Label runat="server" ID="lblSubject" Text="Subject"></asp:Label>
+    <asp:TextBox runat="server" ID="txtSubject"></asp:TextBox><br />
+    <asp:Button ID="btnSearch" runat="server" Text="Searh" OnClick="btnSearch_Click"/>
+</div>
+
+
     <div class="inner">
         <div class="bd">
             <asp:Repeater ID="rptSearchResult" runat="server">
                 <HeaderTemplate>
-                    <table class="dataTable dt">                     
+                    <table class="dataTable dt">
                 </HeaderTemplate>
                 <ItemTemplate>
                     <tr class='item'>
@@ -30,7 +51,7 @@
                             <div class='media product '>
                                 <div class='price-container right'>
                                     <div class='left inner-right'>
-                                        <div style='display: block;' class='dcc_rnc_CLSelector' co_type='Q' apppath='' ratingmode='ratings' moduleid='<%# Eval("RatingModuleId") %>'
+                                        <div style='display: block;' class='dcc_rnc_CLSelector' co_type='Q' apppath='' ratingmode='ratings' moduleid='<%#  (int)Eval("Type") ==1?Eval("PluggRatingsModuleId"):Eval("CourseRatingsModuleId") %>'
                                             co_val='tabid:<%# Eval("TabID") %>'>
                                             <!-- User customizable content starts -->
                                             <table border='0' cellspacing='0' cellpadding='3'>
@@ -59,7 +80,8 @@
                                             <ul class='booklist-rating'>
                                                 <li class='booklist-top'>
                                                     <h3 class='booklist-title'>
-                                                        <a href='<%# evaluateRedirectURL(Convert.ToInt16( Eval("TabID"))) %>'><%#Eval("Title")%> </a>
+                                                        <a href='<%# evaluateRedirectURL(Convert.ToInt16( Eval("TabID"))) %>'><%# Eval("Text")%> </a>
+                                                     <img src='<%#ResolveUrl((int)Eval("Type") == 1 ? "~\\images\\Courses.png" : "~\\images\\icon_extensions_24px.gif" ) %>' width="16px" />
                                                     </h3>
                                                 </li>
                                             </ul>
@@ -72,7 +94,7 @@
                                         <li>
                                             <h4 class='booklist-author'>
                                                 <asp:Label ID="lblAuthor" runat="server" Text="Author :" meta:resourcekey="lblAuthorResource1"></asp:Label>
-                                                <a href='/Activity-Feed/UserId/<%#Eval("AuthorId")%>'><%#Eval("Author")%></a>.
+                                                <a href='/Activity-Feed/UserId/<%# Eval("AuthorId")%>'><%# Eval("DisplayName")%></a>
                                             </h4>
                                         </li>
                                         <li>
@@ -83,7 +105,7 @@
                                         </li>
                                         <li class='description'>
                                             <div class='expandable js-expandable js-auto-expand'>
-                                                <div class='expandable-content'><%#Eval("Description")%></div>
+                                                <div class='expandable-content'><%# Eval("Description")%></div>
                                                 <br />
                                                 <br />
                                                 <div class='expandable-trigger-container'>
@@ -150,12 +172,13 @@
     li.ui-menu-item:hover
     {
         background: none repeat scroll 0 0 #ff6600 !important;
-    color: White !important;
+        color: White !important;
     }
+
     a.ui-state-focus
     {
-         background: none !important;
-    color: White !important;
+        background: none !important;
+        color: White !important;
     }
 
     .mod

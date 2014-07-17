@@ -5,6 +5,8 @@ using System.Web;
 using System.Web.UI;
 using System.Web.UI.WebControls;
 using Plugghest.Base2;
+using DotNetNuke.Data;
+using System.Data;
 
 namespace Plugghest.Modules.PlugghestControls
 {
@@ -25,7 +27,7 @@ namespace Plugghest.Modules.PlugghestControls
             }
         }
 
-        public IEnumerable<Plugghest.Base2.PluggInfoForPluggList> DataSource
+        public IEnumerable<advancesearch> DataSource
         {
             set
             {
@@ -33,7 +35,7 @@ namespace Plugghest.Modules.PlugghestControls
                 rptSearchResult.DataBind();
             }
         }
-        
+
 
         private string CurrentLanguage
         {
@@ -43,10 +45,11 @@ namespace Plugghest.Modules.PlugghestControls
             }
         }
 
+
         protected void Page_Load(object sender, EventArgs e)
         {
-            
-        }      
+
+        }
 
         public string evaluateRedirectURL(int tabid)
         {
@@ -60,5 +63,35 @@ namespace Plugghest.Modules.PlugghestControls
             BaseHandler bh = new BaseHandler();
             return bh.GetSubjectString("en-US", subjectId);
         }
+
+        protected void btnSearch_Click(object sender, EventArgs e)
+        {
+            using (IDataContext ctx = DataContext.Instance())
+            {
+                this.DataSource = ctx.ExecuteQuery<advancesearch>(CommandType.StoredProcedure, "advSearch",
+                                                                         ddlPluggorCourse.SelectedValue,
+                                                                         Convert.ToInt16(ddlLanguage.SelectedValue) == 0 ? "" : this.CurrentLanguage,
+                                                                         txtTitle.Text.StartsWith("\"") && txtTitle.Text.StartsWith("\"") ? txtTitle.Text.Replace("\"","") : txtTitle.Text,
+                                                                         txtTitle.Text.StartsWith("\"") ? 0 : 1,
+                                                                         txtSubject.Text);
+            }
+        }
+    }
+
+    public class advancesearch
+    {
+        public int TestId { get; set; }
+        public int PluggId { get; set; }
+        public int CourseId { get; set; }
+        public int TabID { get; set; }
+        public int CourseTabID { get; set; }
+        public int PluggRatingsModuleId { get; set; }
+        public int CourseRatingsModuleId { get; set; }
+        public int SubjectId { get; set; }
+        public int Type { get; set; }
+        public int AuthorId { get; set; }
+        public string Text { get; set; }
+        public string Description { get; set; }
+        public string DisplayName { get; set; }
     }
 }
