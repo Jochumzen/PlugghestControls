@@ -19,24 +19,30 @@
 
 <div class="mod booklist">
     <div>
-    <asp:DropDownList ID="ddlPluggorCourse" runat="server">
-        <asp:ListItem Text="Plugg and Course" Value="0"></asp:ListItem>
-        <asp:ListItem Text="Pluggs" Value="1"></asp:ListItem>
-        <asp:ListItem Text="Courses" Value="2"></asp:ListItem>
-    </asp:DropDownList><br />
+        <asp:DropDownList ID="ddlPluggorCourse" runat="server">
+            <asp:ListItem Text="Plugg and Course" Value="0"></asp:ListItem>
+            <asp:ListItem Text="Pluggs" Value="1"></asp:ListItem>
+            <asp:ListItem Text="Courses" Value="2"></asp:ListItem>
+        </asp:DropDownList><br />
 
-    <asp:DropDownList ID="ddlLanguage" runat="server">
-        <asp:ListItem Text="Any Language" Value="0"></asp:ListItem>
-        <asp:ListItem Text="Current Language" Value="1"></asp:ListItem>
-    </asp:DropDownList><br />
+        <asp:DropDownList ID="ddlLanguage" runat="server">
+            <asp:ListItem Text="Any Language" Value="0"></asp:ListItem>
+            <asp:ListItem Text="Current Language" Value="1"></asp:ListItem>
+        </asp:DropDownList><br />
 
 
-    <asp:Label runat="server" ID="lblTitle" Text="Title"></asp:Label>
-    <asp:TextBox runat="server" ID="txtTitle"></asp:TextBox><br />
-    <asp:Label runat="server" ID="lblSubject" Text="Subject"></asp:Label>
-    <asp:TextBox runat="server" ID="txtSubject"></asp:TextBox><br />
-    <asp:Button ID="btnSearch" runat="server" Text="Searh" OnClick="btnSearch_Click"/>
-</div>
+        <asp:Label runat="server" ID="lblTitle" Text="Title"></asp:Label>
+        <asp:TextBox runat="server" ID="txtTitle"></asp:TextBox><br />
+        <asp:Label runat="server" ID="lblPluggCourseContaining" Text="Plugg/Course containing"></asp:Label>
+        <asp:TextBox runat="server" ID="txtPluggCourseContaining"></asp:TextBox><br />
+        <asp:Label runat="server" ID="lblSubject" Text="Subject"></asp:Label>
+        <asp:TextBox runat="server" ID="txtSubject"></asp:TextBox><br />
+        <asp:Label runat="server" ID="lblAuthor" Text="Display Name (Author) :"></asp:Label>
+        <input id="txtDisplayName" runat="server" class="autocomplete customAutoControl" action-url="http://dnndev.me/DesktopModules/SearchBoost/SearchService.ashx"
+            moduleid="607" allowredirect="false" hiddenfieldid="hdnAuthor" resulturl="#" rulename="DisplayName" /><br />
+        <asp:HiddenField ID="hdnAuthor" runat="server" />
+        <asp:Button ID="btnSearch" runat="server" Text="Searh" OnClick="btnSearch_Click" />
+    </div>
 
 
     <div class="inner">
@@ -72,16 +78,16 @@
                                     <a href='/e-bok/9781446209424/good-essay-writing'>
                                         <img width='66px' height='97px' src='https://image.bokus.com/images2/9781446209424_small' alt='Good Essay Writing'>
                                     </a>
-                                    &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+                                    &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
                                 </figure>
                                 <div class='bd'>
                                     <ul class='verticalList no-margin'>
                                         <li>
                                             <ul class='booklist-rating'>
                                                 <li class='booklist-top'>
-                                                    <h3 class='booklist-title'>
-                                                        <a href='<%# evaluateRedirectURL(Convert.ToInt16( Eval("TabID"))) %>'><%# Eval("Text")%> </a>
-                                                     <img src='<%#ResolveUrl((int)Eval("Type") == 1 ? "~\\images\\Courses.png" : "~\\images\\icon_extensions_24px.gif" ) %>' width="16px" />
+                                                    <h3 class='<%# (int)Eval("Type") == 1 ? "booklist-title-courses" : "booklist-title-plugg"  %>'>
+                                                        <a href='<%# evaluateRedirectURL(Convert.ToInt16( Eval("TabID"))) %>'><%# Eval("Title")%> </a>
+                                                        <img src='<%#ResolveUrl((int)Eval("Type") == 1 ? "~\\images\\Courses.png" : "~\\images\\icon_extensions_24px.gif" ) %>' width="16px" />
                                                     </h3>
                                                 </li>
                                             </ul>
@@ -91,7 +97,7 @@
                                                 <a href='#'>&nbsp;&nbsp;</a>
                                             </h3>
                                         </li>
-                                        <li>
+                                        <li><br/>
                                             <h4 class='booklist-author'>
                                                 <asp:Label ID="lblAuthor" runat="server" Text="Author :" meta:resourcekey="lblAuthorResource1"></asp:Label>
                                                 <a href='/Activity-Feed/UserId/<%# Eval("AuthorId")%>'><%# Eval("DisplayName")%></a>
@@ -135,6 +141,17 @@
 </div>
 <asp:HiddenField ID="hdnKeyword" runat="server" />
 <style>
+    h3.booklist-title-courses a
+    {
+        color: #ff6600;
+        font-weight: bold;
+    }
+    h3.booklist-title-plugg a
+    {
+        color: #4ac0f7;
+        font-weight: bold;
+    }
+
     table.dataTable td.sorting_1
     {
         background-color: white;

@@ -18,6 +18,7 @@ namespace Plugghest.Modules.PlugghestControls
         public ETextItemType ItemType;
         public EControlCase Case;
         public int ControlOrder;
+        public string AttachQS;
 
         protected void Page_Load(object sender, EventArgs e)
         {
@@ -30,7 +31,7 @@ namespace Plugghest.Modules.PlugghestControls
             {
                 case EControlCase.ViewAllowEdit:
                     pnlEdit.Visible = true;
-                    hlEdit.NavigateUrl = DotNetNuke.Common.Globals.NavigateURL(TabId, "", "edit=" + ControlOrder);
+                    hlEdit.NavigateUrl = DotNetNuke.Common.Globals.NavigateURL(TabId, "", "edit=" + ControlOrder, AttachQS);
                     break;
                 case EControlCase.Edit:
                     TheText.Visible = false;
@@ -49,19 +50,13 @@ namespace Plugghest.Modules.PlugghestControls
                         if (t.CultureCodeStatus == ECultureCodeStatus.GoogleTranslated)
                         {
                             pnlTranslateFromGoogle.Visible = true;
-                            if (ItemType == ETextItemType.CoursePluggText)
-                                hlTranslateFromGoogle.NavigateUrl = DotNetNuke.Common.Globals.NavigateURL(TabId, "", "translatecp=" + ControlOrder, "cp=" + ItemId);
-                            else
-                                hlTranslateFromGoogle.NavigateUrl = DotNetNuke.Common.Globals.NavigateURL(TabId, "", "translate=" + ControlOrder);
+                            hlTranslateFromGoogle.NavigateUrl = DotNetNuke.Common.Globals.NavigateURL(TabId, "", "translatecp=" + ControlOrder, AttachQS);
                             btnGoogleOK.Visible = true;
                         }
                         else
                         {
                             pnlTranslateFromHuman.Visible = true;
-                            if (ItemType == ETextItemType.CoursePluggText)
-                                hlTranslateFromHuman.NavigateUrl = DotNetNuke.Common.Globals.NavigateURL(TabId, "", "translatecp=" + ControlOrder, "cp=" + ItemId);
-                            else
-                                hlTranslateFromHuman.NavigateUrl = DotNetNuke.Common.Globals.NavigateURL(TabId, "", "translate=" + ControlOrder);
+                            hlTranslateFromHuman.NavigateUrl = DotNetNuke.Common.Globals.NavigateURL(TabId, "", "translatecp=" + ControlOrder, AttachQS);
                         }
                     }
                     translatedFrom = bh.GetCurrentVersionText(CreatedInCultureCode, ItemId, ItemType);
@@ -93,10 +88,7 @@ namespace Plugghest.Modules.PlugghestControls
                 t.CultureCodeStatus = ECultureCodeStatus.HumanTranslated;
                 t.ModifiedByUserId = UserId;
                 bh.SavePhText(t);
-                if (ItemType == ETextItemType.CoursePluggText)
-                    Response.Redirect(DotNetNuke.Common.Globals.NavigateURL(TabId, "", "cp=" + ItemId));
-                else
-                    Response.Redirect(DotNetNuke.Common.Globals.NavigateURL(TabId, "", "translate=0"));
+                Response.Redirect(DotNetNuke.Common.Globals.NavigateURL(TabId, "", AttachQS));
             }
         }
 
@@ -117,19 +109,13 @@ namespace Plugghest.Modules.PlugghestControls
             if (Case == EControlCase.Edit)
             {
                 bh.SavePhTextInAllCc(t);
-                if (ItemType == ETextItemType.CoursePluggText)
-                    Response.Redirect(DotNetNuke.Common.Globals.NavigateURL(TabId, "", "cp=" + ItemId));
-                else
-                    Response.Redirect(DotNetNuke.Common.Globals.NavigateURL(TabId, "", "edit=0"));
+                Response.Redirect(DotNetNuke.Common.Globals.NavigateURL(TabId, "", AttachQS));
             }
             else if (Case == EControlCase.Translate)
             {
                 t.CultureCodeStatus = ECultureCodeStatus.HumanTranslated;
                 bh.SavePhText(t);
-                if (ItemType == ETextItemType.CoursePluggText)
-                    Response.Redirect(DotNetNuke.Common.Globals.NavigateURL(TabId, "", "cp=" + ItemId));
-                else
-                    Response.Redirect(DotNetNuke.Common.Globals.NavigateURL(TabId, "", "translate=0"));
+                Response.Redirect(DotNetNuke.Common.Globals.NavigateURL(TabId, "", AttachQS));
             }
         }
 
@@ -137,12 +123,12 @@ namespace Plugghest.Modules.PlugghestControls
         {
             if(ItemType== ETextItemType.CoursePluggText)
             {
-                Response.Redirect(DotNetNuke.Common.Globals.NavigateURL(TabId, "", "cp=" + ItemId));
+                Response.Redirect(DotNetNuke.Common.Globals.NavigateURL(TabId, "", AttachQS));
             }
             if (Case == EControlCase.Edit)
-                Response.Redirect(DotNetNuke.Common.Globals.NavigateURL(TabId, "", "edit=0"));
+                Response.Redirect(DotNetNuke.Common.Globals.NavigateURL(TabId, "", "edit=0", AttachQS));
             else
-                Response.Redirect(DotNetNuke.Common.Globals.NavigateURL(TabId, "", "translate=0"));
+                Response.Redirect(DotNetNuke.Common.Globals.NavigateURL(TabId, "", "translate=0", AttachQS));
         }
     }
 }

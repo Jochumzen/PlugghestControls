@@ -18,6 +18,7 @@ namespace Plugghest.Modules.PlugghestControls
         public ELatexItemType ItemType;
         public EControlCase Case;
         public int ControlOrder;
+        public string AttachQS;
 
         protected void Page_Load(object sender, EventArgs e)
         {
@@ -30,7 +31,7 @@ namespace Plugghest.Modules.PlugghestControls
             {
                 case EControlCase.ViewAllowEdit:
                     pnlEdit.Visible = true;
-                    hlEdit.NavigateUrl = DotNetNuke.Common.Globals.NavigateURL(TabId, "", "edit=" + ControlOrder);
+                    hlEdit.NavigateUrl = DotNetNuke.Common.Globals.NavigateURL(TabId, "", "edit=" + ControlOrder, AttachQS);
                     break;
                 case EControlCase.Edit:
                     lblCurrentText.Visible = true;
@@ -49,13 +50,13 @@ namespace Plugghest.Modules.PlugghestControls
                         if (t.CultureCodeStatus == ECultureCodeStatus.GoogleTranslated)
                         {
                             pnlTranslateFromGoogle.Visible = true;
-                            hlTranslateFromGoogle.NavigateUrl = DotNetNuke.Common.Globals.NavigateURL(TabId, "", "translate=" + ControlOrder);
+                            hlTranslateFromGoogle.NavigateUrl = DotNetNuke.Common.Globals.NavigateURL(TabId, "", "translate=" + ControlOrder, AttachQS);
                             btnGoogleOK.Visible = true;
                         }
                         else
                         {
                             pnlTranslateFromHuman.Visible = true;
-                            hlTranslateFromHuman.NavigateUrl = DotNetNuke.Common.Globals.NavigateURL(TabId, "", "translate=" + ControlOrder);
+                            hlTranslateFromHuman.NavigateUrl = DotNetNuke.Common.Globals.NavigateURL(TabId, "", "translate=" + ControlOrder, AttachQS);
                         }
                     }
                     translatedFrom = bh.GetCurrentVersionLatexText(CreatedInCultureCode, ItemId, ItemType);
@@ -88,7 +89,7 @@ namespace Plugghest.Modules.PlugghestControls
                 t.CultureCodeStatus = ECultureCodeStatus.HumanTranslated;
                 t.ModifiedByUserId = UserId;
                 bh.SaveLatexText(t);
-                Response.Redirect(DotNetNuke.Common.Globals.NavigateURL(TabId, "", "translate=0"));
+                Response.Redirect(DotNetNuke.Common.Globals.NavigateURL(TabId, "", "translate=0", AttachQS));
             }
         }
 
@@ -110,7 +111,7 @@ namespace Plugghest.Modules.PlugghestControls
                 t.Text = tbEnterLatex.Text;
                 t.HtmlText = "";
                 bh.SaveLatexTextInAllCc(t);
-                Response.Redirect(DotNetNuke.Common.Globals.NavigateURL(TabId, "", "edit=0"));
+                Response.Redirect(DotNetNuke.Common.Globals.NavigateURL(TabId, "", "edit=0", AttachQS));
             }
             else if (Case == EControlCase.Translate)
             {
@@ -121,7 +122,7 @@ namespace Plugghest.Modules.PlugghestControls
                     t.HtmlText = System.Net.WebUtility.HtmlDecode(teTranslate.Text);
                     t.CultureCodeStatus = ECultureCodeStatus.HumanTranslated;
                     bh.SaveLatexText(t);
-                    Response.Redirect(DotNetNuke.Common.Globals.NavigateURL(TabId, "", "translate=0"));
+                    Response.Redirect(DotNetNuke.Common.Globals.NavigateURL(TabId, "", "translate=0", AttachQS));
                 }
             }
         }
@@ -129,9 +130,9 @@ namespace Plugghest.Modules.PlugghestControls
         protected void btnCancel_Click(object sender, EventArgs e)
         {
             if (Case == EControlCase.Edit)
-                Response.Redirect(DotNetNuke.Common.Globals.NavigateURL(TabId, "", "edit=0"));
+                Response.Redirect(DotNetNuke.Common.Globals.NavigateURL(TabId, "", "edit=0", AttachQS));
             else
-                Response.Redirect(DotNetNuke.Common.Globals.NavigateURL(TabId, "", "translate=0"));
+                Response.Redirect(DotNetNuke.Common.Globals.NavigateURL(TabId, "", "translate=0", AttachQS));
         }
     }
 }
