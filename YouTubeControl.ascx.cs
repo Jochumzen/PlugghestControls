@@ -15,16 +15,26 @@ namespace Plugghest.Modules.PlugghestControls
         public string CultureCode;
         public EControlCase Case;
         public int ControlOrder;
+        public string AttachQS;
+
         protected void Page_Load(object sender, EventArgs e)
         {
             BaseHandler bh = new BaseHandler();
             YouTube yt = bh.GetYouTubeByComponentId(PluggComponentId);
+            if (yt != null)
+            {
+                lblTheYTTitle.Text = yt.YouTubeTitle;
+                lblTheYTAuthor.Text = yt.YouTubeAuthor;
+                lblTheYTText.Text = yt.YouTubeComment;
+                lnkShowInfo.Visible = true;
+            }
+
             if (yt != null && Case != EControlCase.Edit)
                 pnlYouTube.Controls.Add(new LiteralControl(yt.GetIframeString(CultureCode)));
             if (Case == EControlCase.ViewAllowEdit)
             {
                 pnlEdit.Visible = true;
-                hlEdit.NavigateUrl = DotNetNuke.Common.Globals.NavigateURL(TabId, "", "edit=" + ControlOrder);
+                hlEdit.NavigateUrl = DotNetNuke.Common.Globals.NavigateURL(TabId, "", "edit=" + ControlOrder, AttachQS);
             }
             if (Case == EControlCase.Edit)
             {
@@ -50,12 +60,12 @@ namespace Plugghest.Modules.PlugghestControls
             yt.YouTubeComment = ytYouTubeComment.Value;
             yt.PluggComponentId = PluggComponentId;
             bh.SaveYouTube(yt);
-            Response.Redirect(DotNetNuke.Common.Globals.NavigateURL(TabId, "", "edit=0"));
+            Response.Redirect(DotNetNuke.Common.Globals.NavigateURL(TabId, "", "edit=0", AttachQS));
         }
 
         protected void btnCancel_Click(object sender, EventArgs e)
         {
-            Response.Redirect(DotNetNuke.Common.Globals.NavigateURL(TabId, "", "edit=0"));
+            Response.Redirect(DotNetNuke.Common.Globals.NavigateURL(TabId, "", "edit=0", AttachQS));
         }
     }
 }

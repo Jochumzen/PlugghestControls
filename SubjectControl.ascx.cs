@@ -22,6 +22,8 @@ namespace Plugghest.Modules.PlugghestControls
         public string CultureCode;
         public EControlCase Case;
         public int ControlOrder;
+        public string AttachQS;
+
         protected void Page_Load(object sender, EventArgs e)
         {
 
@@ -36,7 +38,7 @@ namespace Plugghest.Modules.PlugghestControls
             if (Case == EControlCase.ViewAllowEdit)
             {
                 phEdit.Visible = true;
-                hlEdit.NavigateUrl = DotNetNuke.Common.Globals.NavigateURL(TabId, "", "edit=" + ControlOrder);
+                hlEdit.NavigateUrl = DotNetNuke.Common.Globals.NavigateURL(TabId, "", "edit=" + ControlOrder, AttachQS);
             }
             if (Case == EControlCase.Edit)
             {
@@ -64,7 +66,7 @@ namespace Plugghest.Modules.PlugghestControls
                         pc.ThePlugg.SubjectId = Convert.ToInt32(hdnNodeSubjectId.Value);
                         pc.UpdatePluggEntity();
                     }
-                    Response.Redirect(DotNetNuke.Common.Globals.NavigateURL(TabId, "", "edit=0"));
+                    Response.Redirect(DotNetNuke.Common.Globals.NavigateURL(TabId, "", "edit=0", AttachQS));
                     break;
                 case ESubjectCase.Course:
                     CourseContainer cc = new CourseContainer(CultureCode, ItemId);
@@ -73,7 +75,7 @@ namespace Plugghest.Modules.PlugghestControls
                         cc.TheCourse.SubjectId = Convert.ToInt32(hdnNodeSubjectId.Value);
                         cc.UpdateCourseEntity();
                     }
-                    Response.Redirect(DotNetNuke.Common.Globals.NavigateURL(TabId, "", "edit=0"));
+                    Response.Redirect(DotNetNuke.Common.Globals.NavigateURL(TabId, "", "edit=0", AttachQS));
                     break;
                 case ESubjectCase.NotSet:
                     throw new Exception("Subject case not set");
@@ -84,7 +86,7 @@ namespace Plugghest.Modules.PlugghestControls
 
         protected void btnCancel_Click(object sender, EventArgs e)
         {
-            Response.Redirect(DotNetNuke.Common.Globals.NavigateURL(TabId, "", "edit=0"));
+            Response.Redirect(DotNetNuke.Common.Globals.NavigateURL(TabId, "", "edit=0", AttachQS));
         }
     }
 }

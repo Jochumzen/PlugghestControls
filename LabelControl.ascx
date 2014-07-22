@@ -7,7 +7,7 @@
     <asp:Literal ID="ltOriginalText" runat="server" /><br />
 </asp:Panel>
 
-<h4><asp:Label ID="lblCurrentText" resourcekey="CurrentText" runat="server" Visible="false"></asp:Label></h4>
+<h4><asp:Label ID="lblCurrentText" resourcekey="Current" runat="server" Visible="false"></asp:Label></h4>
 <asp:Literal ID="TheText" runat="server"></asp:Literal>
 
 <asp:Panel ID="pnlEditText" runat="server" Visible="false">
@@ -16,6 +16,8 @@
     <asp:DropDownList ID="ddlHeadingType" runat="server">
         <asp:ListItem Text="No heading" />
         <asp:ListItem Text="Heading 1" />
+        <asp:ListItem Text="Heading 2" />
+        <asp:ListItem Text="Heading 3" />
     </asp:DropDownList>
 </asp:Panel>
 

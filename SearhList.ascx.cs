@@ -58,7 +58,7 @@ namespace Plugghest.Modules.PlugghestControls
 
         public string getSubjectByID(int subjectId)
         {
-            if (subjectId == 0)
+            if (subjectId == 0 || subjectId == -1)
                 return "No subject";
             BaseHandler bh = new BaseHandler();
             return bh.GetSubjectString("en-US", subjectId);
@@ -66,14 +66,18 @@ namespace Plugghest.Modules.PlugghestControls
 
         protected void btnSearch_Click(object sender, EventArgs e)
         {
+
             using (IDataContext ctx = DataContext.Instance())
             {
                 this.DataSource = ctx.ExecuteQuery<advancesearch>(CommandType.StoredProcedure, "advSearch",
-                                                                         ddlPluggorCourse.SelectedValue,
-                                                                         Convert.ToInt16(ddlLanguage.SelectedValue) == 0 ? "" : this.CurrentLanguage,
-                                                                         txtTitle.Text.StartsWith("\"") && txtTitle.Text.StartsWith("\"") ? txtTitle.Text.Replace("\"","") : txtTitle.Text,
-                                                                         txtTitle.Text.StartsWith("\"") ? 0 : 1,
-                                                                         txtSubject.Text);
+                                                                                         ddlPluggorCourse.SelectedValue,
+                                                                                         Convert.ToInt16(ddlLanguage.SelectedValue) == 0 ? "" : this.CurrentLanguage,
+                                                                                         txtTitle.Text.StartsWith("\"") && txtTitle.Text.StartsWith("\"") ? txtTitle.Text.Replace("\"", "") : txtTitle.Text,
+                                                                                         txtTitle.Text.StartsWith("\"") ? 1 : 0,
+                                                                                         txtSubject.Text,
+                                                                                         txtDisplayName.Value,
+                                                                                         txtPluggCourseContaining.Text
+                                                                                         );
             }
         }
     }
@@ -90,7 +94,7 @@ namespace Plugghest.Modules.PlugghestControls
         public int SubjectId { get; set; }
         public int Type { get; set; }
         public int AuthorId { get; set; }
-        public string Text { get; set; }
+        public string Title { get; set; }
         public string Description { get; set; }
         public string DisplayName { get; set; }
     }

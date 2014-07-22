@@ -6,6 +6,7 @@ using System.Web.UI;
 using System.Web.UI.WebControls;
 using Plugghest.Base2;
 using DotNetNuke.Entities.Modules;
+using System.Text.RegularExpressions;
 
 namespace Plugghest.Modules.PlugghestControls
 {
@@ -18,6 +19,7 @@ namespace Plugghest.Modules.PlugghestControls
         public ETextItemType ItemType;
         public EControlCase Case;
         public int ControlOrder;
+        public string AttachQS;
 
         protected void Page_Load(object sender, EventArgs e)
         {
@@ -30,7 +32,7 @@ namespace Plugghest.Modules.PlugghestControls
             {
                 case EControlCase.ViewAllowEdit:
                     pnlEdit.Visible = true;
-                    hlEdit.NavigateUrl = DotNetNuke.Common.Globals.NavigateURL(TabId, "", "edit=" + ControlOrder);
+                    hlEdit.NavigateUrl = DotNetNuke.Common.Globals.NavigateURL(TabId, "", "edit=" + ControlOrder, AttachQS);
                     break;
                 case EControlCase.Edit:
                     TheText.Visible = false;
@@ -38,48 +40,64 @@ namespace Plugghest.Modules.PlugghestControls
                     btnCancel.Visible = true;
                     pnlEditText.Visible = true;
                     if (t != null)
-                        tbTheText.Text = TheText.Text;
+                    {
+                        if(TheText.Text[0]=='<')
+                        {
+                            ddlHeadingType.SelectedIndex = Convert.ToInt16(TheText.Text.Substring(2, 1));
+                            tbTheText.Text = TheText.Text.Remove(TheText.Text.Length - 5).Remove(0, 4);
+                        }
+                        else
+                        {
+                            ddlHeadingType.SelectedIndex = 0;
+                            tbTheText.Text = TheText.Text;
+                        }
+                    }
                     break;
                 case EControlCase.ViewAllowTranslate:
-                    //pnlOriginalText.Visible = true;
-                    //if (t != null)
-                    //{
-                    //    pnlOriginalText.Visible = true;
-                    //    lblCurrentText.Visible = true;
-                    //    if (t.CultureCodeStatus == ECultureCodeStatus.GoogleTranslated)
-                    //    {
-                    //        pnlTranslateFromGoogle.Visible = true;
-                    //        if (ItemType == ETextItemType.CoursePluggText)
-                    //            hlTranslateFromGoogle.NavigateUrl = DotNetNuke.Common.Globals.NavigateURL(TabId, "", "translatecp=" + ControlOrder, "cp=" + ItemId);
-                    //        else
-                    //            hlTranslateFromGoogle.NavigateUrl = DotNetNuke.Common.Globals.NavigateURL(TabId, "", "translate=" + ControlOrder);
-                    //        btnGoogleOK.Visible = true;
-                    //    }
-                    //    else
-                    //    {
-                    //        pnlTranslateFromHuman.Visible = true;
-                    //        if (ItemType == ETextItemType.CoursePluggText)
-                    //            hlTranslateFromHuman.NavigateUrl = DotNetNuke.Common.Globals.NavigateURL(TabId, "", "translatecp=" + ControlOrder, "cp=" + ItemId);
-                    //        else
-                    //            hlTranslateFromHuman.NavigateUrl = DotNetNuke.Common.Globals.NavigateURL(TabId, "", "translate=" + ControlOrder);
-                    //    }
-                    //}
-                    //translatedFrom = bh.GetCurrentVersionText(CreatedInCultureCode, ItemId, ItemType);
-                    //if (translatedFrom != null)
-                    //    ltOriginalText.Text = translatedFrom.Text;
+                    pnlOriginalText.Visible = true;
+                    if (t != null)
+                    {
+                        lblCurrentText.Visible = true;
+                        if (t.CultureCodeStatus == ECultureCodeStatus.GoogleTranslated)
+                        {
+                            pnlTranslateFromGoogle.Visible = true;
+                            hlTranslateFromGoogle.NavigateUrl = DotNetNuke.Common.Globals.NavigateURL(TabId, "", "translatecp=" + ControlOrder, AttachQS);
+                            btnGoogleOK.Visible = true;
+                        }
+                        else
+                        {
+                            pnlTranslateFromHuman.Visible = true;
+                            hlTranslateFromHuman.NavigateUrl = DotNetNuke.Common.Globals.NavigateURL(TabId, "", "translatecp=" + ControlOrder, AttachQS);
+                        }
+                    }
+                    translatedFrom = bh.GetCurrentVersionText(CreatedInCultureCode, ItemId, ItemType);
+                    if (translatedFrom != null)
+                        ltOriginalText.Text = translatedFrom.Text;
                     break;
                 case EControlCase.Translate:
-                    //pnlOriginalText.Visible = true;
-                    //btnSave.Visible = true;
-                    //btnCancel.Visible = true;
-                    //pnlRichTextbox.Visible = true;
-                    //lblCurrentText.Visible = true;
-                    //TheText.Visible = false;
-                    //if (t != null)
-                    //    hdnrichtext.Value = TheText.Text;
-                    //translatedFrom = bh.GetCurrentVersionText(CreatedInCultureCode, ItemId, ItemType);
-                    //if (translatedFrom != null)
-                    //    ltOriginalText.Text = translatedFrom.Text;
+                    pnlOriginalText.Visible = true;
+                    btnSave.Visible = true;
+                    btnCancel.Visible = true;
+                    lblCurrentText.Visible = true;
+                    pnlEditText.Visible = true;
+                    TheText.Visible = false;
+                    ddlHeadingType.Enabled  = false;
+                    if (t != null)
+                    {
+                        if (TheText.Text[0] == '<')
+                        {
+                            ddlHeadingType.SelectedIndex = Convert.ToInt16(TheText.Text.Substring(2, 1));
+                            tbTheText.Text = TheText.Text.Remove(TheText.Text.Length - 5).Remove(0, 4);
+                        }
+                        else
+                        {
+                            ddlHeadingType.SelectedIndex = 0;
+                            tbTheText.Text = TheText.Text;
+                        }
+                    }                   
+                    translatedFrom = bh.GetCurrentVersionText(CreatedInCultureCode, ItemId, ItemType);
+                    if (translatedFrom != null)
+                        ltOriginalText.Text = translatedFrom.Text;
                     break;
             }
         }
@@ -92,10 +110,7 @@ namespace Plugghest.Modules.PlugghestControls
                 t.CultureCodeStatus = ECultureCodeStatus.HumanTranslated;
                 t.ModifiedByUserId = UserId;
                 bh.SavePhText(t);
-                if (ItemType == ETextItemType.CoursePluggText)
-                    Response.Redirect(DotNetNuke.Common.Globals.NavigateURL(TabId, "", "cp=" + ItemId));
-                else
-                    Response.Redirect(DotNetNuke.Common.Globals.NavigateURL(TabId, "", "translate=0"));
+                Response.Redirect(DotNetNuke.Common.Globals.NavigateURL(TabId, "", AttachQS));
             }
         }
 
@@ -111,40 +126,31 @@ namespace Plugghest.Modules.PlugghestControls
                 t.ItemId = ItemId;
                 t.ItemType = ItemType;
             }
-            string newText = tbTheText.Text;
-            newText = newText.Replace('<',' ');
-            newText = newText.Replace('>',' ');
-            t.Text = newText;
+            t.Text = Regex.Replace(tbTheText.Text, "<[^>]*>", String.Empty);
+            if (ddlHeadingType.SelectedIndex > 0)
+            {
+                t.Text = "<h" + ddlHeadingType.SelectedIndex.ToString() + ">" + t.Text + "</h" + ddlHeadingType.SelectedIndex.ToString() + ">";
+            }
             t.ModifiedByUserId = UserId;
             if (Case == EControlCase.Edit)
             {
                 bh.SavePhTextInAllCc(t);
-                if (ItemType == ETextItemType.CoursePluggText)
-                    Response.Redirect(DotNetNuke.Common.Globals.NavigateURL(TabId, "", "cp=" + ItemId));
-                else
-                    Response.Redirect(DotNetNuke.Common.Globals.NavigateURL(TabId, "", "edit=0"));
+                Response.Redirect(DotNetNuke.Common.Globals.NavigateURL(TabId, "", AttachQS));
             }
             else if (Case == EControlCase.Translate)
             {
                 t.CultureCodeStatus = ECultureCodeStatus.HumanTranslated;
                 bh.SavePhText(t);
-                if (ItemType == ETextItemType.CoursePluggText)
-                    Response.Redirect(DotNetNuke.Common.Globals.NavigateURL(TabId, "", "cp=" + ItemId));
-                else
-                    Response.Redirect(DotNetNuke.Common.Globals.NavigateURL(TabId, "", "translate=0"));
+                Response.Redirect(DotNetNuke.Common.Globals.NavigateURL(TabId, "", AttachQS));
             }
         }
 
         protected void btnCancel_Click(object sender, EventArgs e)
         {
-            if (ItemType == ETextItemType.CoursePluggText)
-            {
-                Response.Redirect(DotNetNuke.Common.Globals.NavigateURL(TabId, "", "cp=" + ItemId));
-            }
             if (Case == EControlCase.Edit)
-                Response.Redirect(DotNetNuke.Common.Globals.NavigateURL(TabId, "", "edit=0"));
+                Response.Redirect(DotNetNuke.Common.Globals.NavigateURL(TabId, "", "edit=0", AttachQS ));
             else
-                Response.Redirect(DotNetNuke.Common.Globals.NavigateURL(TabId, "", "translate=0"));
+                Response.Redirect(DotNetNuke.Common.Globals.NavigateURL(TabId, "", "translate=0", AttachQS));
         }
     }
 }

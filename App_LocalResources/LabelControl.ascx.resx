@@ -117,19 +117,25 @@
   <resheader name="writer">
     <value>System.Resources.ResXResourceWriter, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
   </resheader>
-  <data name="CheckYT.Text" xml:space="preserve">
-    <value>Check</value>
+  <data name="Current.Text" xml:space="preserve">
+    <value>Current text:</value>
   </data>
   <data name="Edit.Text" xml:space="preserve">
     <value>Edit component</value>
   </data>
-  <data name="YTAuthor.Text" xml:space="preserve">
-    <value>YouTube Author: </value>
+  <data name="GoogleOK.Text" xml:space="preserve">
+    <value>This Google-translated text is acceptable.</value>
   </data>
-  <data name="YTText.Text" xml:space="preserve">
-    <value>YouTube Text: </value>
+  <data name="HeadingType.Text" xml:space="preserve">
+    <value>Heading type: </value>
   </data>
-  <data name="YTTitle.Text" xml:space="preserve">
-    <value>Title on YouTube: </value>
+  <data name="OriginText.Text" xml:space="preserve">
+    <value>Original text:</value>
+  </data>
+  <data name="TranslateGoogle.Text" xml:space="preserve">
+    <value>This text has been translated by Google. Help us improve translation.</value>
+  </data>
+  <data name="TranslateHuman.Text" xml:space="preserve">
+    <value>This text has been translated by a human. Improve translation.</value>
   </data>
 </root>
